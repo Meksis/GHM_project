@@ -17,25 +17,26 @@ class DB_ORM:
     
     def __connect(self):
         os.mkdir('DBs') if not os.path.exists('DBs') else ...
-
-        self.connection = sq.connect("DBs/TESTS.db")
+        self.connection = sq.connect("DBs/multi_test.db")
         self.cursor = self.connection.cursor()
 
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS test_table (
-            Здание varchar(512),
-            Помещение varchar(512),
-            Машина varchar(512),
-            Адрес varchar(512),
-            Системы varchar(512),
-            Оборудование varchar(512),
-            Фото BLOB
-            )''')
-        self.connection.commit()
+        # self.connection = sq.connect("DBs/TESTS.db")
+        # self.cursor = self.connection.cursor()
+
+        # self.cursor.execute('''CREATE TABLE IF NOT EXISTS test_table (
+        #     Здание varchar(512),
+        #     Помещение varchar(512),
+        #     Машина varchar(512),
+        #     Адрес varchar(512),
+        #     Системы varchar(512),
+        #     Оборудование varchar(512),
+        #     Фото BLOB
+        #     )''')
+        # self.connection.commit()
 
 
     def execute(self, query : str, is_change : bool, **values) -> list:
         if self.connection_check():
-
             if values:
                 if list(values.keys())[0] == 'values':
                     self.cursor.execute(query, values['values'])
@@ -64,10 +65,8 @@ class DB_ORM:
         except Exception:
             return False
 
-    def columns_names(self):
-        return([name[1] for name in self.execute('''PRAGMA table_info(test_table);''', is_change = False)])
+    def columns_names(self, table_name : str) -> list:
+        return([name[1] for name in self.execute(f'''PRAGMA table_info({table_name});''', is_change = False)])
 
     def connection_close(self):
         self.connection.close()
-
-
