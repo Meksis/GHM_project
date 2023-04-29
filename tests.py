@@ -32,11 +32,11 @@ def state_upd(name : str, val : str) -> None:
     st.session_state.update({name : vals})
 
 st.session_state.update({
-    'building_select' : ['Не важно'] + DB_object.get_unique('Здание'),
+    'building_select' : ['Не важно'] + DB_object.get_unique('Наименование', 'ЗДАНИЯ'),
     'room_select' : '',
-    'machine_select' : ['Не важно'] + DB_object.get_unique('Машина'),
+    'machine_select' : ['Не важно'] + DB_object.get_unique('Наименование', "МАШИНЫ"),
     'address_select' : '',
-    'system_select' : ['Не важно'] + DB_object.get_unique('Системы'),
+    'system_select' : ['Не важно'] + DB_object.get_unique('Наименование', "СИСТЕМЫ"),
     'equipping_select' : ''
 })
 
