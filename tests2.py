@@ -8,7 +8,7 @@ from DB_work import DB_ORM
 from streamlit import *
 from openpyxl_image_loader import SheetImageLoader
 
-table_path = 'K:\Downloads\Загрузки Яндекс\Прототип.xlsx'
+# table_path = 'K:\Downloads\Загрузки Яндекс\Прототип.xlsx'
 DB_object = DB_ORM()
 hide_streamlit_style = """
 <style>
@@ -19,9 +19,9 @@ footer {visibility: hidden;}
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
-#loading the Excel File and the sheet
-xl_file = op.load_workbook(filename = table_path,  data_only = True)
-working_sheet = xl_file[xl_file.sheetnames[1]]      # 0 - Пикча, 1 - таблица
+# #loading the Excel File and the sheet
+# xl_file = op.load_workbook(filename = table_path,  data_only = True)
+# working_sheet = xl_file[xl_file.sheetnames[1]]      # 0 - Пикча, 1 - таблица
 
 # st.write(DB_object.execute('SELECT * FROM test_table', is_change=False)[: 50])
 def state_upd(name : str, val : str) -> None:
