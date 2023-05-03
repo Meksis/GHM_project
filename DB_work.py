@@ -71,8 +71,8 @@ class DB_ORM:
         if self.connection_check():
             return([x[0] for x in self.execute(f"""
         SELECT DISTINCT {table_name}.{self.columns_names(table_name)[1]} FROM 
-            {table_name} JOIN {'AMALGAM'} 
-                ON {table_name}.id = {'AMALGAM'}.{self.dict_reverse_search(dictionary, table_name)}
+            {table_name} JOIN {'СВОДКА'} 
+                ON {table_name}.id = {'СВОДКА'}.{self.dict_reverse_search(dictionary, table_name)}
         """, 
         is_change=False)])      # Непонятки с первым элементом, получаемым таким запросом. Разобраться. 
 

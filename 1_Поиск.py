@@ -103,13 +103,13 @@ if st.button('Поиск'):
     query = f'''
         SELECT ЗДАНИЯ.Наименование, ПОМЕЩЕНИЯ.Номер, МАШИНЫ.Наименование, АДРЕСА.Адрес, СИСТЕМЫ.Наименование, ОБОРУДОВАНИЕ.Наименование, ФОТО.Изображение
             FROM 
-                AMALGAM JOIN ЗДАНИЯ ON AMALGAM.Здание = ЗДАНИЯ.id
-                JOIN ПОМЕЩЕНИЯ ON AMALGAM.Помещение = ПОМЕЩЕНИЯ.id
-                JOIN МАШИНЫ ON AMALGAM.Машина = МАШИНЫ.id
-                JOIN АДРЕСА ON AMALGAM.Адрес = АДРЕСА.id
-                JOIN СИСТЕМЫ ON AMALGAM.Системы = СИСТЕМЫ.id
-                JOIN ОБОРУДОВАНИЕ ON AMALGAM.Оборудование = ОБОРУДОВАНИЕ.id
-                JOIN ФОТО ON AMALGAM.Фото = ФОТО.id
+                СВОДКА JOIN ЗДАНИЯ ON СВОДКА.Здание = ЗДАНИЯ.id
+                JOIN ПОМЕЩЕНИЯ ON СВОДКА.Помещение = ПОМЕЩЕНИЯ.id
+                JOIN МАШИНЫ ON СВОДКА.Машина = МАШИНЫ.id
+                JOIN АДРЕСА ON СВОДКА.Адрес = АДРЕСА.id
+                JOIN СИСТЕМЫ ON СВОДКА.Системы = СИСТЕМЫ.id
+                JOIN ОБОРУДОВАНИЕ ON СВОДКА.Оборудование = ОБОРУДОВАНИЕ.id
+                JOIN ФОТО ON СВОДКА.Фото = ФОТО.id
             WHERE 
                 {str(DB_object.names["Здание"] + '.' + DB_object.columns_names(DB_object.names["Здание"])[1]) if building_select != "Не важно" else ''}{str(f" LIKE {quote_one}%{building_select}%{quote_one} AND") if building_select != "Не важно" else ''} 
                 {str(DB_object.names["Машина"] + '.' + DB_object.columns_names(DB_object.names["Машина"])[1]) if machine_select != "Не важно" else ''}{str(f" LIKE {quote_one}%{machine_select}%{quote_one} AND") if machine_select != "Не важно" else ''} 
