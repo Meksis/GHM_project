@@ -3,8 +3,8 @@ import os
 import json
 
 class DB_ORM:
-    def __init__(self):
-        self.__connect()
+    def __init__(self, db_name : str):
+        self.__connect(db_name)
         self.names = {
             'Здание' : 'ЗДАНИЯ', 
             'Помещение' : "ПОМЕЩЕНИЯ", 
@@ -15,33 +15,97 @@ class DB_ORM:
             "Фото" : "ФОТО"
         }
 
-        # self.execute(query = '''CREATE TABLE IF NOT EXISTS test_table (
-        #     Здание varchar(512),
-        #     Помещение varchar(512),
-        #     Машина varchar(512),
-        #     Адрес varchar(512),
-        #     Системы varchar(512),
-        #     Оборудование varchar(512)
-        #     )''', is_change = True)
-    
-    def __connect(self):
+
+    def __connect(self, db_name):
         os.mkdir('DBs') if not os.path.exists('DBs') else ...
-        self.connection = sq.connect("DBs/multi_test.db")
+        self.connection = sq.connect(f"DBs/{db_name}.db")
         self.cursor = self.connection.cursor()
 
-        # self.connection = sq.connect("DBs/TESTS.db")
-        # self.cursor = self.connection.cursor()
+        # Создание таблицы зданий
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS ЗДАНИЯ (
+            id INTEGER PRIMARY KEY, 
+            'Наименование' varchar NOT NULL,
+            UNIQUE('Наименование')
+        )
+        """, 
+        is_change=True)
 
-        # self.cursor.execute('''CREATE TABLE IF NOT EXISTS test_table (
-        #     Здание varchar(512),
-        #     Помещение varchar(512),
-        #     Машина varchar(512),
-        #     Адрес varchar(512),
-        #     Системы varchar(512),
-        #     Оборудование varchar(512),
-        #     Фото BLOB
-        #     )''')
-        # self.connection.commit()
+        # Создание таблицы помещений
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS ПОМЕЩЕНИЯ (
+            id INTEGER PRIMARY KEY, 
+            'Номер' varchar  NOT NULL,
+            UNIQUE('Номер')
+        )
+        """, 
+        is_change=True)
+
+        # Создание таблицы "машин"
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS МАШИНЫ (
+            id INTEGER PRIMARY KEY, 
+            'Наименование' varchar  NOT NULL,
+            UNIQUE('Наименование')
+        )
+        """, 
+        is_change=True)
+
+        # Создание таблицы устройств
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS СИСТЕМЫ (
+            id INTEGER PRIMARY KEY, 
+            'Наименование' varchar  NOT NULL,
+            UNIQUE('Наименование')
+        )
+        """, 
+        is_change=True)
+
+        # Создание таблицы оборудования
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS ОБОРУДОВАНИЕ (
+            id INTEGER PRIMARY KEY, 
+            'Наименование' varchar  NOT NULL,
+            UNIQUE('Наименование')
+        )
+        """, 
+        is_change=True)
+
+        # Создание таблицы адресов
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS АДРЕСА (
+            id INTEGER PRIMARY KEY, 
+            'Адрес' varchar(256)  NOT NULL,
+            UNIQUE ('Адрес')
+        )
+        """, 
+        is_change=True)
+
+        # Создание таблицы фоток. Лучше использовать БД, поскольку отпадает проблема одновременного доступа к одному и тому же файлу.
+        self.execute(f"""
+        CREATE TABLE IF NOT EXISTS ФОТО (
+            id INTEGER PRIMARY KEY, 
+            'Изображение' BLOB  NOT NULL,
+            UNIQUE ('Изображение')
+        )
+        """, 
+        is_change=True)
+
+        # Создание таблицы-сводки
+        self.execute("""
+        CREATE TABLE IF NOT EXISTS СВОДКА (
+            Здание INTEGER NOT NULL,
+            Помещение INTEGER NOT NULL,
+            Машина INTEGER NOT NULL,
+            Адрес INTEGER NOT NULL,
+            Системы INTEGER NOT NULL,
+            Оборудование INTEGER NOT NULL,
+            Фото INTEGER NOT NULL
+        )
+
+        """,
+        is_change=True)
+
 
     def dict_reverse_search(self, dictionary : dict, search_value : str):
         return(list(dictionary.keys())[list(dictionary.values()).index(search_value)] if search_value in list(dictionary.values()) else False)
